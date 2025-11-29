@@ -1,0 +1,2 @@
+dataset,best_f1_score,C,class_weight,penalty,solver
+smotenc,0.8674031392355628,0.1,,l1,liblinear

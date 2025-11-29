@@ -1,0 +1,2 @@
+dataset,best_f1_score,dropout_rate,hidden_layer_sizes,learning_rate,batch_size,epochs,seed
+under,0.812172764346343,0.4,"(128, 64)",0.001,32,50,42

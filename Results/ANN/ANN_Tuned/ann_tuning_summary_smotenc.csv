@@ -1,0 +1,2 @@
+dataset,best_f1_score,dropout_rate,hidden_layer_sizes,learning_rate,batch_size,epochs,seed
+smotenc,0.9034157895024477,0.2,"(128, 64)",0.001,64,50,42

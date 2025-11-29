@@ -1,0 +1,2 @@
+dataset,best_f1_score,C,class_weight,penalty,solver
+raw,0.6685972373890096,0.001,balanced,l1,liblinear

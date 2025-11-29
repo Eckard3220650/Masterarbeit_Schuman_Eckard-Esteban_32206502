@@ -1,0 +1,2 @@
+dataset,best_f1_score,bootstrap,class_weight,max_depth,max_features,min_samples_leaf,min_samples_split,n_estimators,random_state
+raw,0.6918815827174764,True,balanced_subsample,20,sqrt,2,2,200,42
