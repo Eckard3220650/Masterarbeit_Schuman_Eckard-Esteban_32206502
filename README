@@ -1,1 +1,105 @@
+This repository accompanies the master‑thesis “From Data to Decisions: Model Selection and Explainable AI for Purchase Intent Prediction in E‑Commerce”. It contains the full codebase, data splits, evaluation results and SHAP visualisations used in the study. The directory names and scripts reflect the actual structure of this repository.
 
+The goal of the project is to predict whether an online shopping session ends in a purchase. Several supervised learning models (logistic regression, random forest, XGBoost and an artificial neural network) are trained and tuned under severe class imbalance. Profit‑driven threshold optimisation and SHAP-based explanation are used to ensure that the models are both effective and interpretable.
+
+Repository layout
+├── EDA+Feature Engineering/
+│   ├── Main Body/                     # Core EDA plots (PNG images)
+│   ├── Appendix/                      # Supplementary EDA visualisations
+│   └── Scripts/                       # Data‑exploration and feature‑engineering scripts
+│       ├── 01 EDA.py                  # Exploratory data analysis
+│       └── 02 #03 Feature Engineering_sampling_strategies.py
+│
+├── ModelData/                         # Clean data and preprocessed splits for modelling
+│   ├── X_train_raw.csv                # Raw training features
+│   ├── X_train_smotenc.csv            # SMOTENC oversampled features
+│   ├── X_train_under.csv              # Randomly undersampled features
+│   ├── X_test.csv and X_test_fixed.csv
+│   ├── y_train_raw.csv, y_train_smotenc.csv, y_train_under.csv
+│   ├── y_test.csv
+│   └── preprocessor.pkl               # Fitted preprocessing pipeline
+│
+├── Scripts/
+│   ├── ANN/                           # Scripts for training and tuning the artificial neural network
+│   │   ├── 04_train_ann.py            # Train baseline ANN models
+│   │   ├── 08d_tune_ann.py            # Hyperparameter tuning of ANN
+│   │   └── 09d_threshold_tuning_ann.py# Determine optimal decision threshold for ANN
+│   ├── Logreg/                        # Logistic regression scripts (train/tune/threshold)
+│   ├── Random Forest/                 # Random forest scripts (train/tune/threshold)
+│   ├── XGBoost/                       # XGBoost scripts (train/tune/threshold)
+│   ├── Shap GLogal/                   # Generate global SHAP summary plots
+│   ├── Shap Local/                    # Generate local SHAP explanations (e.g. waterfall plots)
+│   ├── 05_evaluate_models.py          # Evaluate baseline models and export metrics
+│   ├── 06c_plot_confusion_matrices.py # Plot confusion matrices for baseline results
+│   ├── 09_evaluate_models_combine_tuned.py
+│   ├── 10_generate_confusion_matrices.py
+│   └── 11_plot_profit_comparison.py   # Compare profit across models
+│
+├── Results/
+│   ├── Baseline_Plots/plots/          # ROC, PR and bar charts for baseline models
+│   ├── ConfusionMatrices/             # Confusion matrices for baseline and tuned models
+│   ├── ANN/
+│   │   ├── ANN_Tuned/                 # Cross‑validation and tuning results for ANN
+│   │   ├── Thresholds/                # CSV files of optimal thresholds per sampling method
+│   │   └── ann_metrics_*.csv          # Baseline and oversampled/undersampled evaluation metrics
+│   ├── LogReg/                        # Same structure as ANN for logistic regression
+│   ├── RF/                            # Same structure for random forest
+│   ├── XGB/                           # Same structure for XGBoost
+│   └── SHAP/
+│       ├── Global/                    # SHAP feature‑importance bar plots (by model and sampling)
+│       └── Local/                     # SHAP explanations for individual TP/FP/FN/TN examples
+│
+└── README.md                          # This document
+
+How to reproduce the analysis
+
+Set up the environment
+
+Install the required Python packages. The project uses common scientific libraries such as pandas, numpy, scikit‑learn, imbalanced‑learn, xgboost, tensorflow/keras, shap and matplotlib. You can install them using pip install -r requirements.txt.
+
+Exploratory data analysis and feature engineering
+
+Run the scripts in EDA+Feature Engineering/Scripts/ to explore the raw data and construct the engineered features:
+
+python "EDA+Feature Engineering/Scripts/01 EDA.py"
+python "EDA+Feature Engineering/Scripts/02 #03 Feature Engineering_sampling_strategies.py"
+
+
+These scripts generate the visualisations in EDA+Feature Engineering/Main Body and Appendix, and produce cleaned data splits stored in ModelData/.
+
+Train baseline models
+
+For each model family (LogReg, RF, XGB, ANN) run the 04_train_*.py script in the corresponding subfolder under Scripts/.
+This will train baseline models on the raw, SMOTENC and undersampled data and write out metrics to Results/<Model>/.
+
+Example for random forest:
+
+python Scripts/Random\ Forest/04_train_rf.py
+
+
+Hyperparameter tuning
+
+Run the 08*_tune_*.py scripts to perform cross‑validated hyperparameter optimisation for each model. These scripts log cross‑validation results and save the tuned parameter sets in Results/<Model>_Tuned/.
+
+Decision threshold selection
+
+Run the 09*_threshold_tuning_*.py scripts to determine optimal classification thresholds based on F1 and profit considerations. Thresholds are saved in the Thresholds/ subfolder for each model.
+
+Model evaluation and comparisons
+
+Use the evaluation scripts (05_evaluate_models.py, 06c_plot_confusion_matrices.py, 09_evaluate_models_combine_tuned.py, 10_generate_confusion_matrices.py, 11_plot_profit_comparison.py) to aggregate metrics, plot confusion matrices and compare profitability across models. Results are written to the corresponding subdirectories of Results/.
+
+SHAP interpretability
+
+Global explanations: run the scripts under Scripts/Shap GLogal/ to compute global SHAP values and bar plots for each model and sampling method. The resulting plots are stored in Results/SHAP/Global/.
+
+Local explanations: run the scripts under Scripts/Shap Local/ to produce local explanations (e.g. waterfall plots) for true positives, false positives, false negatives and true negatives. These figures are saved in Results/SHAP/Local/.
+
+Regenerate trained models 
+
+The trained model binaries (e.g. .pkl, .json, .h5) are not stored in this repository to keep it lightweight and compliant with GitHub’s file‑size limits. You can regenerate them by rerunning the training scripts. If you need to distribute the model files, publish them via a GitHub Release as described in the project instructions.
+
+Citation
+
+If you use this repository or the accompanying thesis, please cite the UCI dataset:
+Sakar, C. & Kastro, Y. (2018). Online Shoppers Purchasing Intention Dataset [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5F88Q.
