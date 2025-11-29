@@ -1,2 +1,0 @@
-dataset,best_f1_score,scale_pos_weight,colsample_bytree,gamma,learning_rate,max_depth,min_child_weight,n_estimators,subsample
-raw,0.682463408011118,5.461914744933613,1.0,0,0.03,9,1,200,0.7
